@@ -14,6 +14,7 @@ namespace Foster.Framework;
 /// <param name="Height">The Window Height</param>
 /// <param name="Fullscreen">If the Window should default to Fullscreen</param>
 /// <param name="Resizable">If the Window should be resizable</param>
+/// <param name="Borderless">If the Window should be borderless</param>
 /// <param name="UpdateMode">An optional default Update Mode to initialize the App with</param>
 /// <param name="PreferredGraphicsDriver">The preferred graphics driver, or None to use the platform-default</param>
 /// <param name="Flags">Optional App Initialization Flags</param>
@@ -25,6 +26,7 @@ public readonly record struct AppConfig
 	int Height,
 	bool Fullscreen = false,
 	bool Resizable = true,
+	bool Borderless = false,
 	UpdateMode? UpdateMode = null,
 	GraphicsDriver PreferredGraphicsDriver = GraphicsDriver.None,
 	AppFlags Flags = AppFlags.None

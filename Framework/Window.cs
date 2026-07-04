@@ -10,6 +10,7 @@ public sealed class Window : IDrawableTarget
 	internal readonly uint ID;
 
 	private string title;
+	private readonly bool borderless;
 	private readonly App app;
 	private readonly Exception closedWindowException = new("The Window has been Closed");
 	private readonly Exception notOnMainThreadException = new("This method may only be called from the Main thread");
@@ -301,6 +302,7 @@ public sealed class Window : IDrawableTarget
 	{
 		this.app = app;
 		title = config.WindowTitle;
+		borderless = config.Borderless;
 		GraphicsDevice = graphicsDevice;
 
 		var windowFlags =
@@ -311,6 +313,8 @@ public sealed class Window : IDrawableTarget
 			windowFlags |= SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
 		if (config.Resizable)
 			windowFlags |= SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
+		if (config.Borderless)
+			windowFlags |= SDL_WindowFlags.SDL_WINDOW_BORDERLESS;
 
 		Handle = SDL_CreateWindow(title, config.Width, config.Height, windowFlags);
 		if (Handle == IntPtr.Zero)
@@ -491,7 +495,7 @@ public sealed class Window : IDrawableTarget
 	{
 		SDL_ShowWindow(Handle);
 		SDL_SetWindowFullscreenMode(Handle, ref Unsafe.NullRef<SDL_DisplayMode>());
-		SDL_SetWindowBordered(Handle, true);
+		SDL_SetWindowBordered(Handle, !borderless);
 		SDL_RaiseWindow(Handle);
 		SDL_ShowCursor();
 	}
